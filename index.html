@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas Diarias</title>
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <h1><span class="bolder">PAUL.</span><span class="cursiva">checklist <i class='bx bx-task-x' ></i></span></h1>
+    <h2>Deja de procastinar y organizate. Ingresa la lista de cosas que tenes que hacer y hacelas!!</h2>
+    <h3>Si no llegas con todo tranqui, anotalo y pasalo para mañana.</h3>
+    <input type="text" id="taskInput" placeholder="Ingresa las tareas separadas por comas">
+    <button id="loadTasksButton"><i class='bx bx-plus-medical' ></i> Cargar Tareas</button>
+    <ul id="taskList"></ul>
+    <button id="exportButton"><i class='bx bx-spreadsheet' ></i> Exportar tareas completadas</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const taskInput = document.getElementById('taskInput');
+            const loadTasksButton = document.getElementById('loadTasksButton');
+            const taskList = document.getElementById('taskList');
+            const exportButton = document.getElementById('exportButton');
+
+            loadTasksButton.addEventListener('click', () => {
+                const tasks = taskInput.value.split(',').map(task => task.trim()).filter(task => task !== '');
+                taskList.innerHTML = '';
+                tasks.forEach((task, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<input type="checkbox" id="task${index}"><label for="task${index}">${task}</label>`;
+                    taskList.appendChild(li);
+                });
+                taskInput.value = '';
+            });
+
+            taskList.addEventListener('change', (e) => {
+                if (e.target.type === 'checkbox') {
+                    const label = e.target.nextElementSibling;
+                    if (e.target.checked) {
+                        label.classList.add('completed');
+                    } else {
+                        label.classList.remove('completed');
+                    }
+                }
+            });
+
+            exportButton.addEventListener('click', () => {
+                const completedTasks = Array.from(taskList.querySelectorAll('input:checked'))
+                    .map(checkbox => checkbox.nextElementSibling.textContent);
+                
+                if (completedTasks.length === 0) {
+                    alert('No hay tareas completadas para exportar.');
+                    return;
+                }
+
+                const tasksText = completedTasks.join('\n');
+                const blob = new Blob([tasksText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'tareas_completadas.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        });
+    </script>
+</body>
+</html>

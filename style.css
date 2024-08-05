@@ -1,0 +1,57 @@
+* {
+    font-family: "Poppins", sans-serif;
+
+}
+body {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+h1 {
+    text-align: center;
+}
+h2 {
+    text-align: center;
+}
+h3 {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 300;
+}
+#taskInput {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+#loadTasksButton, #exportButton {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    margin-bottom: 10px;
+}
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+.completed {
+    text-decoration: line-through;
+    color: #888;
+}
+.cursiva {
+    font-weight: 200;
+    font-style: italic;
+}
+.bolder {
+    font-weight: bold;
+
+}
